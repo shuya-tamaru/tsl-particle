@@ -24,9 +24,9 @@ import {
 import GUI from "lil-gui";
 
 //setup
-const width = window.innerWidth;
-const height = window.innerHeight;
-const aspect = width / height;
+let width = window.innerWidth;
+let height = window.innerHeight;
+let aspect = height ? width / height : 16 / 9;
 
 const scene = new THREE.Scene();
 
@@ -60,12 +60,12 @@ const color4 = uniform(color("#00FF66")); // エメラルドグリーン
 const color5 = uniform(color("#FFFFFF")); // ホワイト (ハイライト用)
 
 //scale
-const scale0 = uniform(0.01);
-const scale1 = uniform(0.01);
-const scale2 = uniform(0.02);
-const scale3 = uniform(0.01);
-const scale4 = uniform(0.02);
-const scale5 = uniform(0.02);
+const scale0 = uniform(0.015);
+const scale1 = uniform(0.015);
+const scale2 = uniform(0.025);
+const scale3 = uniform(0.015);
+const scale4 = uniform(0.025);
+const scale5 = uniform(0.025);
 
 //prettier-ignore
 const interactionMatrix = [
@@ -215,6 +215,7 @@ material.scaleNode = Fn(() => {
 material.colorNode = Fn(() => {
   const type = typeBuffer.element(instanceIndex);
   let color = vec4(0.0, 0.0, 0.0, 1.0);
+  const intensity = float(1.5);
 
   Switch(type)
     //@ts-ignore
@@ -231,7 +232,7 @@ material.colorNode = Fn(() => {
     .Case(uint(5), () => color.assign(color5))
     .Default(() => color0);
 
-  return color.mul(1.5);
+  return color.mul(intensity);
 })();
 
 const shapeSmoothCircle = Fn(() => {
@@ -343,7 +344,7 @@ colorFolder.addColor(color4, "value").name("color4");
 colorFolder.addColor(color5, "value").name("color5");
 
 window.addEventListener("resize", () => {
-  const aspect = window.innerWidth / window.innerHeight;
+  aspect = window.innerWidth / window.innerHeight;
 
   camera.left = -aspect;
   camera.right = aspect;
