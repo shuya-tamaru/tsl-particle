@@ -39,12 +39,12 @@ renderer.setClearColor("#000");
 document.body.appendChild(renderer.domElement);
 
 //params
-const particleCount = 10000;
+const particleCount = 15000;
 const typeCount = 6;
 const timeScale = uniform(0.4);
 const delta = float(1 / 60).mul(timeScale);
 const interactionRadius = uniform(0.2);
-const transitionRadius = uniform(0.45);
+const transitionRadius = uniform(0.4);
 const forceScale = uniform(20);
 
 let positionBuffer = instancedArray(particleCount, "vec2");
@@ -73,8 +73,8 @@ const interactionMatrix = [
     0.03 , 0.0 , -0.2 , 0.2 , 0.1 , 0.0 ,   //1番目の粒子
     0.1 , 0.0 , 0.0 , 0.0 , 0.0 , -0.2 ,   //2番目の粒子
     0.0 , 0.2 , -0.2 , 0.0 , 0.03 , 0.0 ,   //3番目の粒子
-    0.03 , 0.0 , 0.0 , 0.001 , -0.001 , 0.001 ,   //4番目の粒子
-    0.001 , 0.001 , 0.001 , 0.001 , -0.3 , 0.0,   //5番目の粒子
+    0.03 , 0.0 , 0.0 , 0.01 , -0.01 , 0.01 ,   //4番目の粒子
+    0.001 , 0.001 , 0.01 , 0.001 , -0.3 , 0.0,   //5番目の粒子
 ]
 
 const interactionMatrixNode = uniformArray(interactionMatrix);
@@ -231,7 +231,7 @@ material.colorNode = Fn(() => {
     .Case(uint(5), () => color.assign(color5))
     .Default(() => color0);
 
-  return color;
+  return color.mul(1.5);
 })();
 
 const shapeSmoothCircle = Fn(() => {
