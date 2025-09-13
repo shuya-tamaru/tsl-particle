@@ -39,7 +39,7 @@ renderer.setClearColor("#000");
 document.body.appendChild(renderer.domElement);
 
 //params
-const particleCount = 15000;
+const particleCount = 10000;
 const typeCount = 6;
 const timeScale = uniform(0.4);
 const delta = float(1 / 60).mul(timeScale);
