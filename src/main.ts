@@ -102,7 +102,7 @@ const init = Fn(() => {
 });
 
 const initCompute = init().compute(particleCount);
-renderer.compute(initCompute);
+renderer.computeAsync(initCompute);
 
 //update compute
 const update = Fn(() => {
@@ -129,7 +129,8 @@ const update = Fn(() => {
     });
 
     let normal = vec2(1.0, 0.0);
-    If(dist.greaterThan(float(0.00000000001)), () => {
+
+    If(dist.greaterThan(float(0.0001)), () => {
       normal.assign(normalize(dir));
     }).Else(() => {
       normal.assign(normalize(vec2(1.0, 1.0)));
@@ -229,8 +230,8 @@ material.colorNode = Fn(() => {
     //@ts-ignore
     .Case(uint(4), () => color.assign(color4))
     //@ts-ignore
-    .Case(uint(5), () => color.assign(color5))
-    .Default(() => color0);
+    .Case(uint(5), () => color.assign(color5));
+  // .Default(() => color.assign(color0));
 
   return color.mul(intensity);
 })();
@@ -355,7 +356,7 @@ window.addEventListener("resize", () => {
 function animate() {
   requestAnimationFrame(animate);
   renderer.computeAsync(updateCompute);
-  renderer.render(scene, camera);
+  renderer.renderAsync(scene, camera);
 }
 
 animate();
